@@ -12,12 +12,27 @@ const bodyParser = require('body-parser');
 
 // Middleware
 app.use(cors());
+app.use(express.json());
 app.use(bodyParser.json());
-
-const authRouter = require("./routes/authRouter");
 app.use(express.json());
 
+// Import middleware and routes
+const { protect, roleCheck } = require('./middlewares/authMiddleware');
+const authRouter = require("./routes/authRouter");
+
 app.use("/api/auth", authRouter);
+
+//
+// Example of a protected route with role-based access
+app.get('/api/admin', protect, roleCheck(['admin']), (req, res) => {
+    res.json({ message: 'Welcome, Admin!' });
+});
+
+app.get('/api/faculty', protect, roleCheck(['faculty', 'admin']), (req, res) => {
+    res.json({ message: 'Faculty or Admin access granted!' });
+});
+
+//
 
 mongoose.connect(url, {
     useNewUrlParser: true,
