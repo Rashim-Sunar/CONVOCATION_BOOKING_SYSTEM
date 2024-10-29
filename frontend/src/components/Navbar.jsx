@@ -1,50 +1,61 @@
 import React, { useState } from 'react';
+import logo from '../assets/vignanlogo.jpg'; // Adjust the path as needed
 
-function Navbar() {
-    const [isOpen, setIsOpen] = useState(false);
+const Navbar = () => {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [searchEvent, setSearchEvent] = useState("");
 
-    const toggleMenu = () => {
-        setIsOpen(!isOpen);
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
-    return (
-        <nav className="bg-gray-800 text-white px-4 py-3">
-            <div className="container mx-auto flex items-center justify-between">
-                {/* Logo */}
-                <h1 className="text-xl font-semibold text-blue-400">
-                    Convocation System
-                </h1>
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setSearchEvent("");
+    }
 
-                {/* Hamburger Button for Mobile */}
-                <button
-                    onClick={toggleMenu}
-                    className="text-gray-400 hover:text-white focus:outline-none sm:hidden"
-                >
-                    {isOpen ? '✖' : '☰'}
+    return (
+        <header className="flex items-center justify-between p-4 bg-gray-800 text-white">
+            <div className="flex items-center">
+                <a href="#">
+                    <img src={logo} alt="Logo" className="h-10" />
+                </a>
+            </div>
+
+            <div className="flex flex-1 mx-4">
+
+                <input
+                    type="text"
+                    placeholder="Search events......"
+                    value={searchEvent}
+                    onChange={(e) => setSearchEvent(e.target.value)}
+                    className="flex-1 p-2 rounded-l-md border-2 border-gray-600 text-md text-black focus:outline-none focus:border-blue-500"
+                />
+
+                <button className="p-2 bg-blue-600 rounded-r-md hover:bg-blue-500 transition duration-200" onClick={handleSearch}>
+                    Search
                 </button>
 
-                
-
-                {/* Links */}
-                <div className={`sm:flex ${isOpen ? "block" : "hidden"} w-full sm:w-auto`}>
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 mt-3 sm:mt-0">
-                        <a href="#" className="hover:text-blue-300 block py-1 sm:py-0">
-                            Home
-                        </a>
-                        <a href="#" className="hover:text-blue-300 block py-1 sm:py-0">
-                            Reserve a Seat
-                        </a>
-                        <a href="#" className="hover:text-blue-300 block py-1 sm:py-0">
-                            Seating Map
-                        </a>
-                        <a href="#" className="hover:text-blue-300 block py-1 sm:py-0">
-                            Login
-                        </a>
-                    </div>
-                </div>
             </div>
-        </nav>
+
+            <button
+                className="block md:hidden p-2 text-white focus:outline-none"
+                onClick={toggleMobileMenu}
+            >
+                {isMobileMenuOpen ? '✖️' : '☰'}
+            </button>
+
+            <nav className={`md:flex ${isMobileMenuOpen ? 'block' : 'hidden'} absolute md:static bg-gray-800 md:bg-transparent w-full md:w-auto z-10`}>
+                <ul className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 p-4 md:p-0">
+                    <li><a href="#" className="hover:underline">Home</a></li>
+                    <li><a href="#" className="hover:underline">About</a></li>
+                    <li><a href="#" className="hover:underline">Contact Us</a></li>
+                    <li><a href="login.html" className="hover:underline">Sign In</a></li>
+                    <li><a href="reg.html" className="hover:underline">Sign Up</a></li>
+                </ul>
+            </nav>
+        </header>
     );
-}
+};
 
 export default Navbar;
