@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { EventContext } from '../contexts/EventContext';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 // Function to convert date into formatted data and time
 const formatDateTime = (dateTimeString) => {
@@ -17,6 +18,7 @@ const formatDateTime = (dateTimeString) => {
 
 const EventDetails = () => {
     const { selectedEvent } = useContext(EventContext);
+    const navigate = useNavigate(); // Get the navigate function
 
     if (!selectedEvent) {
         return <div>No event selected.</div>;
@@ -27,8 +29,8 @@ const EventDetails = () => {
      // Calculate formatted date and time
      const { formattedDate, formattedTime } = formatDateTime(date);
 
-    const bookTickets = () => {
-        alert("Redirecting to booking page...");
+     const bookTickets = () => {
+        navigate('/login'); // Navigate to the login page
     };
 
     return (

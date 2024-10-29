@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import backgroundImg from '../assets/background.jpg';
+import { useNavigate } from 'react-router-dom'; 
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,15 +23,17 @@ const Login = () => {
             // console.log(response);
 
             if (!response.ok) {
+                alert("Login failed! Try again...")
                 throw new Error('Network response was not ok');
+            }else{
+                const data = await response.json();
+                setEmail("");
+                setPassword("");
+             // Handle the response data (e.g., save token in cookie)
+              console.log('Login successful', data);
+               // Redirect to the home page after successful login
+              navigate('/book'); // Change '/home' to your desired path
             }
-
-            const data = await response.json();
-            setEmail("");
-            setPassword("");
-
-            // Handle the response data (e.g., save token in cookie)
-            console.log('Login successful', data);
         } catch (error) {
             console.error('Error during login:', error);
         }

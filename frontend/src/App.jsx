@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import EventDetails from './components/EventDetails';
+import BookingBox from './components/BookingTable';
 import { EventProvider } from './contexts/EventContext';
 
 
@@ -28,6 +29,8 @@ function App() {
         
         {/* Login route without padding */}
         <Route path="/login" element={<Login />} />
+
+        <Route path = "/book" element = {<BookingBox/>} />
         
         {/* Signup route without padding */}
         <Route path="/signup" element={<Signup />} />

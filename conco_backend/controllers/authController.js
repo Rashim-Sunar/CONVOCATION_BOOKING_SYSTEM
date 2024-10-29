@@ -52,6 +52,7 @@
 
     exports.signin = async (req, res, next) => {
         try {
+            // console.log('Incoming request body:', req.body); 
             const { email, password } = req.body;
     
             // Find user by email
@@ -85,14 +86,10 @@
     
             // Set cookie with the token
              // Set the cookie
-             res.cookie('token', token, {
-                httpOnly: true, // Prevents JavaScript access
-                secure: false, // Change to true in production
-                maxAge: 24 * 60 * 60 * 1000 // 1 day
-           });
+             res.cookie('token', token, options);
 
     
-            res.json({ 
+            res.status(200).json({ 
                 status: 'success', 
                 user: {
                     id: user._id, 
