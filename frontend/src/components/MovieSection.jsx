@@ -32,7 +32,7 @@ const MovieSection = () => {
                 }
 
                 const data = await response.json();
-                console.log(data?.data?.events);
+                console.log(data);
                 setEvents(data?.data?.events); // Set the fetched events in state
             } catch (err) {
                 setError(err.message); // Set error message if fetch fails
@@ -64,6 +64,7 @@ const MovieSection = () => {
                          image={eventImages[count]}
                          title={event.name}
                          date={event.date}
+                         location={event.location}
                          description={event.description}
                         link={event.link}
                      />

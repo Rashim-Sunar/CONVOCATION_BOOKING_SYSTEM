@@ -22,7 +22,7 @@
 
             const token = signToken(newUser._id);
 
-                //Using cookie for sending  JWT...
+                //Using cookie for sending  JWT...res.cookie('jwt', token, options); 
             const options = {
             maxAge: process.env.EXPIRING_DAY,
             httpOnly: true

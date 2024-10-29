@@ -7,10 +7,12 @@ import Footer from './components/Footer';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import EventDetails from './components/EventDetails';
+import { EventProvider } from './contexts/EventContext';
 
 
 function App() {
   return (
+    <EventProvider>
     <Router>
       <Navbar />
       <Routes>
@@ -37,6 +39,7 @@ function App() {
       </Routes>
 
     </Router>
+    </EventProvider>
   );
 }
 
