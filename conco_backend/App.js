@@ -11,7 +11,13 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 // Middleware
-app.use(cors());
+
+// CORS Configuration
+app.use(cors({
+    origin: 'http://localhost:5173', // Replace with your actual frontend URL
+    credentials: true // Allow cookies to be sent
+}));
+
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.json());
