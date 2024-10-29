@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
         unique: true 
     },
 
-    password: { 
+    password: {  
         type: String, 
         required: true 
     },  // Store hashed password for security

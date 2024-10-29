@@ -1,4 +1,5 @@
-const mongoose =   require('mongoose');
+// models/Seat.js
+const mongoose = require('mongoose');
 
 const seatSchema = new mongoose.Schema({
     seatNumber: { 
@@ -6,29 +7,31 @@ const seatSchema = new mongoose.Schema({
         required: true, 
         unique: true 
     },
-
-    section: { type: String, 
+    section: { 
+        type: String, 
         required: true 
-    },  // e.g., "VIP", "General", "Family"
-
+    },
     row: { 
         type: String, 
         required: true 
     },
-
     isReserved: { 
         type: Boolean, 
         default: false 
     },
-
     reservedFor: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User', 
         default: null 
     },
+    eventId: { // Associate seat with an event
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Event',
+        required: true
+    }
 }, {
     timestamps: true
 });
 
-const Seat =  mongoose.model('Seat', seatSchema);
+const Seat = mongoose.model('Seat', seatSchema);
 module.exports = Seat;
