@@ -5,7 +5,7 @@ const seatSchema = new mongoose.Schema({
     seatNumber: { 
         type: String, 
         required: true, 
-        unique: true 
+        // unique: true 
     },
     section: { 
         type: String, 
@@ -32,6 +32,9 @@ const seatSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+
+// Create a compound index on seatNumber and eventId
+seatSchema.index({ seatNumber: 1, eventId: 1 }, { unique: true });
 
 const Seat = mongoose.model('Seat', seatSchema);
 module.exports = Seat;

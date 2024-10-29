@@ -16,7 +16,7 @@ exports.createEvent = async (req, res) => {
         for (let row = 1; row <= rows; row++) {
             for (let seatNumber = 1; seatNumber <= seatsPerRow; seatNumber++) {
                 seats.push({
-                    seatNumber: `${section}-${row}-${seatNumber}`, // e.g., "VIP-1-1"
+                    seatNumber: `${event._id}-${section}-${row}-${seatNumber}`, // e.g., "VIP-1-1"
                     section,
                     row: row.toString(),
                     eventId: event._id // Link the seat to the created event
