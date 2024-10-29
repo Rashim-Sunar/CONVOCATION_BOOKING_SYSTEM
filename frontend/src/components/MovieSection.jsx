@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import MovieCard from './MovieCard';
 
 // Import images from assets
@@ -11,80 +11,65 @@ import csefestImg from '../assets/csefest.jpg';
 import welfareImg from '../assets/weelfare.jpg';
 import freshersImg from '../assets/freshers.jpg';
 
-const movies = [
-    {
-        image: sportsImg,
-        title: 'Sports Inaugaration',
-        date: '19-11-2024',
-        description: 'Brief description of the movie. This is a sample text for the movie description.',
-        link: 'sportInaugration.html',
-    },
-    {
-        image: alumniImg,
-        title: 'Alumni Meetup',
-        date: '25-11-2024',
-        description: 'Brief description of the movie. This is a sample text for the movie description.',
-        link: 'aliminiMeetup.html',
-    },
-    {
-        image: jobHuntingImg,
-        title: 'Job Hunting Webinar',
-        date: '15-12-2024',
-        description: 'Brief description of the movie. This is a sample text for the movie description.',
-        link: 'jobHunting.html',
-    },
-    {
-        image: mbafestImg,
-        title: 'Cultural Night',
-        date: '05-01-2025',
-        description: 'Brief description of the movie. This is a sample text for the movie description.',
-        link: 'culturalNight.html',
-    },
-    {
-        image: mahotsavImg,
-        title: 'Mahotsav',
-        date: '01-02-2025',
-        description: 'Brief description of the movie. This is a sample text for the movie description.',
-        link: 'mahotsav.html',
-    },
-    {
-        image: csefestImg,
-        title: 'V-Code',
-        date: '15-03-2025',
-        description: 'Brief description of the movie. This is a sample text for the movie description.',
-        link: 'sportInaugration.html',
-    },
-    {
-        image: welfareImg,
-        title: 'Welfare Activity',
-        date: '15-12-2024',
-        description: 'Brief description of the movie. This is a sample text for the movie description.',
-        link: 'sportInaugration.html',
-    },
-    {
-        image: freshersImg,
-        title: "Fresher's Day",
-        date: '15-12-2024',
-        description: 'Brief description of the movie. This is a sample text for the movie description.',
-        link: 'sportInaugration.html',
-    },
-];
+
+const eventImages = [sportsImg, alumniImg, jobHuntingImg, mbafestImg,mahotsavImg, csefestImg, welfareImg, freshersImg ];
 
 const MovieSection = () => {
+    const [events, setEvents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/events', {
+                    method: 'GET',
+                    credentials: 'include', // Include cookies if needed
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch events');
+                }
+
+                const data = await response.json();
+                console.log(data?.data?.events);
+                setEvents(data?.data?.events); // Set the fetched events in state
+            } catch (err) {
+                setError(err.message); // Set error message if fetch fails
+            } finally {
+                setLoading(false); // Set loading to false once fetching is complete
+            }
+        };
+
+        fetchEvents(); // Call the fetch function
+    }, []); // Empty dependency array means this runs once on mount
+
+    if (loading) {
+        return <div>Loading...</div>; // Loading state
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>; // Error state
+    }
+
     return (
         <div className="movie-container px-6 py-4">
             {/* <h1 className="text-center text-2xl font-bold mb-6">Where Enjoyment is There...</h1> */}
             <div className="movie-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:mx-20">
-                {movies.map((movie, index) => (
-                    <MovieCard
-                        key={index}
-                        image={movie.image}
-                        title={movie.title}
-                        date={movie.date}
-                        description={movie.description}
-                        link={movie.link}
-                    />
-                ))}
+                {events.map((event, index) =>{
+                    const count = index % 8; // Reset count to 0 after 7
+                     return (
+                        <MovieCard
+                         key={index}
+                         image={eventImages[count]}
+                         title={event.name}
+                         date={event.date}
+                         description={event.description}
+                        link={event.link}
+                     />
+                   );
+                })}
+
             </div>
         </div>
     );
